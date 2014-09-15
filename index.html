@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app>
+	<head>
+		<meta charset="UTF-8">
+		<title>Workout</title>
+		<link rel="stylesheet" type="text/css" href="css/estilo.css">
+	</head>
+	<body>
+		<main>	
+			<head>
+				<h1>Log de Exercícios</h1>
+			</head>
+
+			<section class="academia">
+				<div ng-controller="FitnessForm">
+					<form name="fit" role="form">
+						<fieldset>
+							<nav>
+								<h2>Tempo percorrido</h2>
+								<h2>Atividade</h2>
+
+								<h2>Data</h2>
+								<h2>Adicionar</h2>
+
+								<ul>
+									<li ng-repeat="item in invoice.items">
+										<div>
+											<input class="campo" name="time" min="1" ng-model="item.tempo" type="number" ng-required="true">
+										</div>
+										<div>
+											<select ng-model="item.tipo" name="tipo" ng-required="true" class="campo">
+							            		<option>Natação</option>
+							            		<option>Corrida</option>
+							            		<option>Bicicleta</option>
+							            	</select>
+										</div>
+										<div>
+											<input name="periodo" type="date"  ng-model="item.periodo" ng-required="true" class="campo">
+										</div>
+
+										<div>
+											<button ng-click="addItem()" class="btn btn-green" ng-disabled="fit.$invalid">Adicionar</button>
+										</div>
+									</li>
+								</ul>
+							</nav>
+						</fieldset>
+					</form>
+				    
+				    <!-- exibiçao dos dados -->
+				    <div class="resultado">
+				    	<table cellpadding="0" cellspacing="0" border="0">
+					    	<thead>
+					    		<tr>
+					    			<th><a href="#" ng-click="predicate = 'tempo'; reverse=false">Tempo</a></th>
+					    			<th><a href="#" ng-click="predicate = 'tipo'; reverse=!reverse">Atividade</a></th>
+					    			<th><a href="#" ng-click="predicate = 'periodo'; reverse=!reverse">Data</a></th>
+					    			<th>Remover</th>
+					    		</tr>
+					    	</thead>
+					    	<tfoot>
+					    		<tr>
+					    			<td colspan="4" ng-if="total() == 1">{{total()}} Hora de atividade</td>
+					    			<td colspan="4" ng-if="total() > 1">{{total()}} Horas de atividade</td>
+					    		</tr>
+					    	</tfoot>
+					    	<tbody>
+					    		<tr ng-repeat="i in invoice.items | orderBy:predicate:reverse" ng-class-odd="'odd'" ng-class-even="'even'" >
+					    			<td>{{i.tempo}}</td>
+					    			<td>{{i.tipo}}</td>
+					    			<td>{{i.periodo}}</td>
+					    			<td><a href="" ng-click="removeItem($index)" class="btn btn-red">X</a></td>
+					    		</tr>
+					    	</tbody>
+				    	</table>
+					</div>
+
+				    <footer ng-show="fit.$invalid" class="info">
+				    	<p ng-hide="fit.time.$valid">Favor inserir um valor acima de 0</p>
+				    	<p ng-hide="fit.tipo.$valid">Favor escolher uma atividade</p>
+				    	<p ng-hide="fit.periodo.$valid">favor preencher o campo do período no formato xx/xx/xxxx</p>
+				    </footer>
+				    
+				</div>
+			</section>
+		</main>
+
+		<script type="text/javascript" src="js/angular.js"></script>
+		<script type="text/javascript" src="js/fitness.js"></script>
+	</body>
+</html>
